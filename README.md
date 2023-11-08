@@ -15,7 +15,9 @@ Then connect the headset, go to Audio Settings, and select mSBC codec to use.
 #### Disable internal microphone boost
 
         # echo 'load-module module-echo-cancel aec_args="analog_gain_control=0 digital_gain_control=0"' > /etc/pulse/default.pa.d/echo-cansel.pa
+
 Or try alsamixer, set boost to 0 and save settings:
+
         # alsactl store
 
 ### Peripheral devices
