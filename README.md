@@ -20,6 +20,19 @@ Or try alsamixer, set boost to 0 and save settings:
 
 ### Peripheral devices
 
+#### Using yubikey for ssh (in KDE PLasma)
+
+Install packages:
+
+        # installpkg {pcsc-lite,opensc,ccid}-*.t?z
+        $ cat << EOF > ~/.config/plasma-workspace/env/ssh-agent-startup.sh
+        #!/bin/bash
+        [ -n "${SSH_AGENT_PID}" ] || eval $(/usr/bin/ssh-agent -P "/usr/lib/*,/usr/local/lib/*,/usr/lib64/pkcs11/*,/usr/lib64/*" -s)
+        EOF
+        $ chmod +x /home/bugfix/.config/plasma-workspace/env/ssh-agent-startup.sh
+
+Logout/Login.
+
 #### Using yubikey for 2fa in firefox (in gitlab, for example)
 The problem is - wrong device permissions when usb device added. To fix:
 
@@ -45,3 +58,16 @@ Login/Logout
 so, in my case, it looks like
 
         {"defaultHandlersVersion":{"en-US":4},"mimeTypes":{"application/pdf":{"action":3,"extensions":["pdf"]},"text/xml":{"action":0,"extensions":["xml"]},"image/svg+xml":{"action":0,"extensions":["svg"]},"image/webp":{"action":3,"extensions":["webp"]},"binary/octet-stream":{"action":0,"ask":false,"extensions":["xz"]},"text/plain":{"action":0,"ask":false,"extensions":["txt","text"]},"image/avif":{"action":3,"extensions":["avif"]}},"schemes":{"irc":{"stubEntry":true,"handlers":[null,{"name":"Mibbit","uriTemplate":"https://www.mibbit.com/?url=%s"}]},"ircs":{"stubEntry":true,"handlers":[null,{"name":"Mibbit","uriTemplate":"https://www.mibbit.com/?url=%s"}]},"mailto":{"stubEntry":true,"handlers":[null,{"name":"Yahoo! Mail","uriTemplate":"https://compose.mail.yahoo.com/?To=%s"},{"name":"Gmail","uriTemplate":"https://mail.google.com/mail/?extsrc=mailto&url=%s"}]},"ext+treestyletab":{"action":2,"handlers":[{"name":"Tree Style Tab","uriTemplate":"moz-extension://2ae079b1-56e3-45c6-8e1d-50e3aa593bf2/resources/protocol-handler.html?%s"}]},"zoommtg":{"handlers":[{"name":"zoom.sh","path":"/home/bugfix/bin/zoom.sh"}],"action":2}},"isDownloadsImprovementsAlreadyMigrated":true,"isSVGXMLAlreadyMigrated":true}
+
+#### Custom TTF fonts (not system-wide)
+1. Create ~/.fonts directory
+2. Put *.ttf files there
+3. Add handler to startup:
+
+        $ cat << EOF > ~/.config/plasma-workspace/env/fonts.sh
+        #!/bin/sh
+        /usr/bin/xset +fp ~/.fonts
+        /usr/bin/xset fp rehash
+        EOF
+        $ chmod +x ~/.config/plasma-workspace/env/fonts.sh
+Logout/Login.
