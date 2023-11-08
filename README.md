@@ -5,7 +5,7 @@
 ### Sound
 
 #### Bad sound with Bluetooth headset
-Solution: switch to Pipewire and HCF mSBC codec
+Solution: switch to Pipewire and mSBC codec
 
         # slackpkg install pipewire
         # /usr/sbin/pipewire-enable.sh
