@@ -73,3 +73,25 @@ so, in my case, it looks like
         EOF
         $ chmod +x ~/.config/plasma-workspace/env/fonts.sh
 Logout/Login.
+
+## System
+
+### Kernel
+
+#### Install drivers after kernel update
+
+        #!/bin/sh
+        
+        kv=$(ls -1 /var/adm/packages/kernel-generic-* | cut -d'-' -f3)
+        
+        mount -v -o remount,rw /boot/efi
+        mkinitrd -F
+        
+        cp -v /boot/vmlinuz /boot/efi/EFI/Slackware/
+        mount -v -o remount,ro /boot/efi
+        
+        if [ ! -f /lib/modules/${kv}/kernel/drivers/video/nvidia.ko ]
+        then
+                driver=$(ls -1 /root/NVIDIA-Linux-x86_64-*.run | tail -n1)
+                sh ${driver} -k ${kv} -K -s
+        fi
